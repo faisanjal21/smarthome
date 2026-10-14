@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WEB DASHBOARD - Sistem Kontrol Pencahayaan Pintar</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: #0d131d;
+        color: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .dashboard-card {
+        background-color: #17212f;
+        width: 100%;
+        max-width: 460px;
+        padding: 28px 24px;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+        border: 1px solid #233143;
+      }
+
+      .title {
+        color: #38bdf8;
+        text-align: center;
+        font-size: 22px;
+        font-weight: 800;
+        letter-spacing: 1px;
+      }
+
+      .subtitle {
+        color: #8b9bb4;
+        text-align: center;
+        font-size: 13px;
+        margin-top: 4px;
+        margin-bottom: 20px;
+      }
+
+      /* Penunjuk Jam Digital WIB */
+      .clock-box {
+        background-color: #101721;
+        border: 1px solid #1e2d3d;
+        border-radius: 10px;
+        padding: 10px;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .clock-title {
+        font-size: 11px;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .clock-time {
+        font-size: 20px;
+        font-weight: 700;
+        color: #38bdf8;
+        margin-top: 2px;
+      }
+
+      /* Lamp Card */
+      .lamp-card {
+        background-color: #101721;
+        border-radius: 14px;
+        padding: 16px;
+        margin-bottom: 16px;
+        border: 1px solid #1e2d3d;
+      }
+
+      .lamp-main-info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .lamp-left {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .icon-box {
+        width: 44px;
+        height: 44px;
+        background-color: #1a2636;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #64748b;
+        font-size: 18px;
+        transition: all 0.3s ease;
+      }
+
+      .icon-box.active {
+        background-color: rgba(56, 189, 248, 0.2);
+        color: #38bdf8;
+        box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+      }
+
+      .lamp-details h3 {
+        font-size: 16px;
+        font-weight: 700;
+      }
+
+      .lamp-details h3 span {
+        font-size: 13px;
+        font-weight: 400;
+        color: #94a3b8;
+      }
+
+      .lamp-status {
+        font-size: 12px;
+        color: #64748b;
+        margin-top: 2px;
+      }
+
+      /* Tombol Toggle ON/OFF */
+      .toggle-btn {
+        background-color: #334155;
+        color: #94a3b8;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 8px;
+        font-weight: 700;
+        cursor: pointer !important;
+        font-size: 13px;
+        transition: all 0.2s ease;
+        position: relative;
+        z-index: 10;
+      }
+
+      .toggle-btn.active {
+        background-color: #0284c7;
+        color: #ffffff;
+        box-shadow: 0 0 10px rgba(2, 132, 199, 0.5);
+      }
+
+      /* Timer Section */
+      .timer-section {
+        margin-top: 14px;
+        padding-top: 12px;
+        border-top: 1px dashed #233143;
+      }
+
+      .timer-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .timer-title {
+        font-size: 12px;
+        font-weight: 600;
+        color: #38bdf8;
+      }
+
+      .timer-inputs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .input-group label {
+        font-size: 11px;
+        color: #94a3b8;
+      }
+
+      .input-group input[type="time"] {
+        background-color: #1a2636;
+        border: 1px solid #28394e;
+        color: #ffffff;
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-size: 12px;
+        outline: none;
+      }
+
+      .input-group input[type="time"]::-webkit-calendar-picker-indicator {
+        filter: invert(1);
+        cursor: pointer;
+      }
+
+      /* Switch Small */
+      .switch-small {
+        position: relative;
+        display: inline-block;
+        width: 34px;
+        height: 18px;
+      }
+
+      .switch-small input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider-round {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #334155;
+        transition: 0.3s;
+        border-radius: 18px;
+      }
+
+      .slider-round:before {
+        position: absolute;
+        content: "";
+        height: 12px;
+        width: 12px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: 0.3s;
+        border-radius: 50%;
+      }
+
+      input:checked + .slider-round {
+        background-color: #0284c7;
+      }
+
+      input:checked + .slider-round:before {
+        transform: translateX(16px);
+      }
+
+      /* Global Action Buttons */
+      .global-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 20px;
+      }
+
+      .btn-action {
+        padding: 12px;
+        border-radius: 8px;
+        border: none;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: 0.2s;
+      }
+
+      .btn-on {
+        background-color: rgba(16, 185, 129, 0.12);
+        border: 1px solid #10b981;
+        color: #34d399;
+      }
+
+      .btn-on:hover {
+        background-color: #10b981;
+        color: #ffffff;
+      }
+
+      .btn-off {
+        background-color: rgba(239, 68, 68, 0.12);
+        border: 1px solid #ef4444;
+        color: #f87171;
+      }
+
+      .btn-off:hover {
+        background-color: #ef4444;
+        color: #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dashboard-card">
+      <h1 class="title">WEB DASHBOARD</h1>
+      <p class="subtitle">Sistem Kontrol Pencahayaan Pintar</p>
+
+      <!-- Display Jam Realtime Indonesia (WIB) -->
+      <div class="clock-box">
+        <div class="clock-title">Waktu Lokal (WIB)</div>
+        <div class="clock-time" id="digital-clock">00:00:00</div>
+      </div>
+
+      <!-- Lampu L1 -->
+      <div class="lamp-card">
+        <div class="lamp-main-info">
+          <div class="lamp-left">
+            <div class="icon-box" id="icon-l1">
+              <i class="fa-solid fa-lightbulb"></i>
+            </div>
+            <div class="lamp-details">
+              <h3>L1 <span>(Lampu Satu)</span></h3>
+              <div class="lamp-status" id="status-l1">Mati</div>
+            </div>
+          </div>
+          <button
+            type="button"
+            class="toggle-btn"
+            id="btn-l1"
+            onclick="toggleLampu('l1')"
+          >
+            OFF
+          </button>
+        </div>
+
+        <div class="timer-section">
+          <div class="timer-header">
+            <span class="timer-title"
+              ><i class="fa-regular fa-clock"></i> Timer Otomatis L1</span
+            >
+            <label class="switch-small">
+              <input type="checkbox" id="timer-active-l1" />
+              <span class="slider-round"></span>
+            </label>
+          </div>
+          <div class="timer-inputs">
+            <div class="input-group">
+              <label for="timer-on-l1">Jam Nyala (ON)</label>
+              <input type="time" id="timer-on-l1" />
+            </div>
+            <div class="input-group">
+              <label for="timer-off-l1">Jam Mati (OFF)</label>
+              <input type="time" id="timer-off-l1" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lampu L2 -->
+      <div class="lamp-card">
+        <div class="lamp-main-info">
+          <div class="lamp-left">
+            <div class="icon-box" id="icon-l2">
+              <i class="fa-solid fa-lightbulb"></i>
+            </div>
+            <div class="lamp-details">
+              <h3>L2 <span>(Lampu Dua)</span></h3>
+              <div class="lamp-status" id="status-l2">Mati</div>
+            </div>
+          </div>
+          <button
+            type="button"
+            class="toggle-btn"
+            id="btn-l2"
+            onclick="toggleLampu('l2')"
+          >
+            OFF
+          </button>
+        </div>
+
+        <div class="timer-section">
+          <div class="timer-header">
+            <span class="timer-title"
+              ><i class="fa-regular fa-clock"></i> Timer Otomatis L2</span
+            >
+            <label class="switch-small">
+              <input type="checkbox" id="timer-active-l2" />
+              <span class="slider-round"></span>
+            </label>
+          </div>
+          <div class="timer-inputs">
+            <div class="input-group">
+              <label for="timer-on-l2">Jam Nyala (ON)</label>
+              <input type="time" id="timer-on-l2" />
+            </div>
+            <div class="input-group">
+              <label for="timer-off-l2">Jam Mati (OFF)</label>
+              <input type="time" id="timer-off-l2" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Global Actions -->
+      <div class="global-actions">
+        <button
+          type="button"
+          class="btn-action btn-on"
+          onclick="setSemua(true)"
+        >
+          <i class="fa-solid fa-power-off"></i> Hidupkan Semua
+        </button>
+        <button
+          type="button"
+          class="btn-action btn-off"
+          onclick="setSemua(false)"
+        >
+          <i class="fa-solid fa-power-off"></i> Matikan Semua
+        </button>
+      </div>
+    </div>
+
+    <script>
+      const BLYNK_TOKEN = "z5uRQW_vB5N05IMnSPsToCANf4n5LGKZ";
+
+      // Virtual Pin (L1 = V0, L2 = V4)
+      const pinMap = {
+        l1: "V0",
+        l2: "V4",
+      };
+
+      const lampStates = {
+        l1: false,
+        l2: false,
+      };
+
+      // Menyimpan menit terakhir yang diproses agar tidak trigger berulang kali
+      const lastTriggeredMinute = {
+        l1_on: "",
+        l1_off: "",
+        l2_on: "",
+        l2_off: "",
+      };
+
+      // Kirim Perintah ke Blynk REST API
+      function sendToBlynk(pin, val) {
+        const img = new Image();
+        img.src = `https://sgp1.blynk.cloud/external/api/update?token=${BLYNK_TOKEN}&${pin}=${val}&t=${Date.now()}`;
+      }
+
+      // Mengubah Tampilan Tombol Web
+      function setLampuUI(id, isON, syncBlynk = true) {
+        lampStates[id] = isON;
+
+        const btn = document.getElementById(`btn-${id}`);
+        const status = document.getElementById(`status-${id}`);
+        const icon = document.getElementById(`icon-${id}`);
+
+        if (btn) {
+          if (isON) {
+            btn.innerText = "ON";
+            btn.classList.add("active");
+            if (icon) icon.classList.add("active");
+            if (status) {
+              status.innerText = "Menyala";
+              status.style.color = "#38bdf8";
+            }
+          } else {
+            btn.innerText = "OFF";
+            btn.classList.remove("active");
+            if (icon) icon.classList.remove("active");
+            if (status) {
+              status.innerText = "Mati";
+              status.style.color = "#64748b";
+            }
+          }
+        }
+
+        if (syncBlynk) {
+          sendToBlynk(pinMap[id], isON ? 1 : 0);
+        }
+      }
+
+      function toggleLampu(id) {
+        const statusBaru = !lampStates[id];
+        setLampuUI(id, statusBaru, true);
+      }
+
+      function setSemua(state) {
+        setLampuUI("l1", state, true);
+        setLampuUI("l2", state, true);
+      }
+
+      // Pengecekan Timer Otomatis & Jam Realtime (WIB / Asia/Jakarta)
+      function updateClockAndCheckTimers() {
+        const now = new Date();
+
+        // Format Jam Indonesia (WIB)
+        const optionsTime = {
+          timeZone: "Asia/Jakarta",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false,
+        };
+        const optionsHM = {
+          timeZone: "Asia/Jakarta",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        };
+
+        const timeStringFormatted = new Intl.DateTimeFormat(
+          "id-ID",
+          optionsTime,
+        )
+          .format(now)
+          .replace(/\./g, ":");
+        const currentHM = new Intl.DateTimeFormat("id-ID", optionsHM)
+          .format(now)
+          .replace(/\./g, ":");
+
+        // Tampilkan Jam Digital di Dashboard
+        const clockEl = document.getElementById("digital-clock");
+        if (clockEl) clockEl.innerText = timeStringFormatted;
+
+        // Cek Timer L1 & L2
+        ["l1", "l2"].forEach((id) => {
+          const timerActive = document.getElementById(`timer-active-${id}`);
+          if (!timerActive || !timerActive.checked) return;
+
+          const timeON = document.getElementById(`timer-on-${id}`).value;
+          const timeOFF = document.getElementById(`timer-off-${id}`).value;
+
+          // Trigger ON jika waktu cocok
+          if (
+            timeON &&
+            currentHM === timeON &&
+            lastTriggeredMinute[`${id}_on`] !== currentHM
+          ) {
+            lastTriggeredMinute[`${id}_on`] = currentHM;
+            setLampuUI(id, true, true);
+          }
+
+          // Trigger OFF jika waktu cocok
+          if (
+            timeOFF &&
+            currentHM === timeOFF &&
+            lastTriggeredMinute[`${id}_off`] !== currentHM
+          ) {
+            lastTriggeredMinute[`${id}_off`] = currentHM;
+            setLampuUI(id, false, true);
+          }
+        });
+      }
+
+      // Jalankan timer setiap 1 detik
+      setInterval(updateClockAndCheckTimers, 1000);
+      updateClockAndCheckTimers();
+    </script>
+  </body>
+</html>

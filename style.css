@@ -1,0 +1,260 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  background-color: #0c131d;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.dashboard-card {
+  background-color: #16202c;
+  width: 100%;
+  max-width: 460px;
+  padding: 28px 24px;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+  border: 1px solid #223042;
+}
+
+.title {
+  color: #38bdf8;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  color: #8b9bb4;
+  text-align: center;
+  font-size: 13px;
+  margin-top: 4px;
+  margin-bottom: 24px;
+}
+
+/* Lamp Item Card */
+.lamp-card {
+  background-color: #0f1722;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 1px solid #1c2a3a;
+}
+
+.lamp-main-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.lamp-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.icon-box {
+  width: 44px;
+  height: 44px;
+  background-color: #1a2736;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  font-size: 18px;
+  transition: all 0.3s ease;
+}
+
+.icon-box.active {
+  background-color: rgba(56, 189, 248, 0.2);
+  color: #38bdf8;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+}
+
+.lamp-details h3 {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.lamp-details h3 span {
+  font-size: 13px;
+  font-weight: 400;
+  color: #94a3b8;
+}
+
+.lamp-status {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+/* Switch / Button Off */
+.toggle-btn {
+  background-color: #334155;
+  color: #94a3b8;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.toggle-btn.active {
+  background-color: #0284c7;
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(2, 132, 199, 0.5);
+}
+
+/* Timer Section */
+.timer-section {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed #223042;
+}
+
+.timer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.timer-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #38bdf8;
+}
+
+.timer-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.input-group label {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.input-group input[type="time"] {
+  background-color: #1a2736;
+  border: 1px solid #28394e;
+  color: #ffffff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  outline: none;
+}
+
+.input-group input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
+
+/* Mini Toggle Switch */
+.switch-small {
+  position: relative;
+  display: inline-block;
+  width: 34px;
+  height: 18px;
+}
+
+.switch-small input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider-round {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #334155;
+  transition: 0.3s;
+  border-radius: 18px;
+}
+
+.slider-round:before {
+  position: absolute;
+  content: "";
+  height: 12px;
+  width: 12px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+input:checked + .slider-round {
+  background-color: #0284c7;
+}
+
+input:checked + .slider-round:before {
+  transform: translateX(16px);
+}
+
+/* Global Action Buttons */
+.global-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.btn-action {
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: 0.2s;
+}
+
+.btn-on {
+  background-color: rgba(16, 185, 129, 0.12);
+  border: 1px solid #10b981;
+  color: #34d399;
+}
+
+.btn-on:hover {
+  background-color: #10b981;
+  color: #ffffff;
+}
+
+.btn-off {
+  background-color: rgba(239, 68, 68, 0.12);
+  border: 1px solid #ef4444;
+  color: #f87171;
+}
+
+.btn-off:hover {
+  background-color: #ef4444;
+  color: #ffffff;
+}
